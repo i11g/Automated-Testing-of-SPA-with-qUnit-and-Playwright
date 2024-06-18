@@ -4,10 +4,13 @@ const base_Url='http://localhost:3030'
 let user={
     email:'',
     password:'123456'
-}
+} 
+
+let token="";
+let userid="";
 
 QUnit.module('user regiastration', ()=>{
-    QUnit.test('registration', async (assert) {
+    QUnit.test('registration', async (assert) => {
         //arrange
         let path='user/register'
 
@@ -41,6 +44,7 @@ QUnit.module('user regiastration', ()=>{
         assert.strictEqual(typeof json.accessToken, 'string', 'Property accessToken is a string') 
 
         assert.ok(json.hasOwnProperty('_id'), 'id exist')
+        userid=json['_id']
         assert.strictEqual(typeof json._id, 'string', 'Property _id is a string')
     })
 })
