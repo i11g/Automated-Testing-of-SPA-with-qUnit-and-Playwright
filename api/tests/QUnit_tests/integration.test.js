@@ -13,6 +13,7 @@ QUnit.module('user regiastration', ()=>{
     QUnit.test('registration', async (assert) => {
         //arrange
         let path='user/register'
+        
 
         let random=Math.floor(Math.random()*10000);
         let email=`abv${random}@abv.bg`; 
