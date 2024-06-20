@@ -2,7 +2,7 @@
 const {describe, test, beforeEach, afterEach, beforeAll, afterAll, expect} = require('@playwright/test');
 const {chromium} = require('playwright')
 
-const host = "http:/localhost:3000"; 
+const host = "http://localhost:3000"; 
 
 let  browser;
 let context;
@@ -31,13 +31,14 @@ describe("e2e tests", ()=>{
     afterEach(async ()=> {
         await page.close();
         await context.close(); 
-    })
+    }) 
+
     describe("authentication", async ()=>{
         test("register with correct credentials makes corrext API call", async ()=>{
             //arrange
             await page.goto(host)
             let random=Math.floor(Math.random()*10000);
-            user.mail=`abv${random}@abv.bg`
+            user.email=`abv${random}@abv.bg`
             
             //act
             await page.click("text=Register")
@@ -48,7 +49,7 @@ describe("e2e tests", ()=>{
             await page.locator('#confirm-password').fill(user.confirmPass) 
 
             let [response]= await Promise.all ([
-                page.waitForResponse(response=>response.url().includes('/users/register') && response.status()===200),
+                page.waitForResponse(response => response.url().includes('/users/register') && response.status()===200),
                 page.click('[type=submit]')
             ])
 
@@ -59,7 +60,28 @@ describe("e2e tests", ()=>{
             expect(userData.email).toBe(user.email);
             expect(userData.password).toBe(userData.password)
 
+        });
+        test("register with empty fields", async()=>{
+            //Arrange
+            await page.goto(host);
+
+            //Act 
+            await page.click("text=Register")
+            await page.waitForSelector('form')
+
+            await page.locator('#email').fill("")
+            await page.locator('#register-password').fill("")
+            await page.locator('#confirm-password').fill("")
+            await page.click('[type=submit]')
+
+            //Assert
+            expect(page.url()).toBe(host+'/register')
         })
+        // test("login with valid credentials makes correct API call", async()=>[
+        //     //arrange
+        //     await page.goto(host) 
+
+        // ])
     })
 })
 
