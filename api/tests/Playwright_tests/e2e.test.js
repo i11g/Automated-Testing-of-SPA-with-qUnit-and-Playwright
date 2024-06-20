@@ -77,11 +77,65 @@ describe("e2e tests", ()=>{
             //Assert
             expect(page.url()).toBe(host+'/register')
         })
-        // test("login with valid credentials makes correct API call", async()=>[
-        //     //arrange
-        //     await page.goto(host) 
+        test("login with valid credentials makes correct API call", async()=>{
+            //arrange
+            await page.goto(host);
+            await page.click('text=Login')
+            await page.waitForSelector('form') 
+            
+            //act
 
-        // ])
+            await page.locator('#email').fill(user.email)
+            await page.locator('#login-password').fill(user.password)
+            
+            let [response]=await Promise.all([
+                page.waitForResponse(response=>response.url().includes('/users/login') && response.status()===200),
+                page.click('[type="submit"]')
+            ])
+
+            let userData= await response.json();
+
+            //assert
+
+            await expect(response.ok).toBeTruthy()
+            expect(userData.email).toBe(user.email)
+            expect(userData.password).toBe(user.password)
+
+       
+        })
+        test("login does not work with empty fileds", async()=>{
+            //arrange 
+            await page.goto(host);
+            await page.click('text=Login')
+            await page.waitForSelector('form')
+            
+            //act
+            await page.click('[type="submit"]')
+           //assert
+            expect(page.url()).toBe(host+'/login')
+        }) 
+        test("logout makes correct API call", async()=>{
+            //arrange
+            await page.goto(host)
+            await page.click('text=login')
+            await page.waitForSelector('form')
+            await page.locator("#email").fill(user.email)
+            await page.locator("#login-password").fill(user.password)
+            await page.click('[type="submit"]')
+            
+            //act
+            let [response]= await Promise.all([
+                page.waitForResponse(response=>response.url().includes('users/logout') && response.status()===204),
+                page.click('text=Logout')
+            ])
+              
+            await page.waitForSelector('text=Login')
+            //assert
+            await expect(response.ok).toBeTruthy()
+            expect(page.url()).toBe(host+'/')
+
+        })
+
     })
 })
 
