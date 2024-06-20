@@ -1,6 +1,6 @@
 
-const {describe, test, beforeEach, afterEach, beforeAll, beforeEach, afterAll, expect} = require('@playwright/test');
-const {chromium} = require('palywright')
+const {describe, test, beforeEach, afterEach, beforeAll, afterAll, expect} = require('@playwright/test');
+const {chromium} = require('playwright')
 
 const host = "http:/localhost:3000"; 
 
@@ -8,7 +8,7 @@ let  browser;
 let context;
 let page; 
 
-let usr= {
+let user= {
     email :"",
     password :"123456",
     confirmPass :"123456"
@@ -43,12 +43,12 @@ describe("e2e tests", ()=>{
             await page.click("text=Register")
             await page.waitForSelector('form') 
 
-            await page.locator('#email').fill(usr.email)
+            await page.locator('#email').fill(user.email)
             await page.locator('#register-password').fill(user.password)
-            await page.locator('confirm-password').fill(user.confirmPass) 
+            await page.locator('#confirm-password').fill(user.confirmPass) 
 
             let [response]= await Promise.all ([
-                page.waitForResponse(response=>response.url().includes('/user/register')&&response.status()===200),
+                page.waitForResponse(response=>response.url().includes('/users/register') && response.status()===200),
                 page.click('[type=submit]')
             ])
 
