@@ -1,5 +1,5 @@
 # Automated Testing of Single Page Application using qUnit and Playwright
-This repo shows how to use QUnit and Playwright to perform integration and end to end testing on SPA application. 
+This project shows how to use QUnit and Playwright to perform integration and end to end testing on SPA application. 
 The testing is focus on requests and responses using the JS fetch API and different Playwright modules.  
 
 ## Table of Contents
