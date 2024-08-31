@@ -10,7 +10,7 @@ The testing is focus on requests and responses using the JS fetch API and differ
 * [License](#license) 
 
 ## General Information
-This project shows how to perform an integration testing and end to ent testing on Single Page Application uisgn QUnit and Playwrigth.The two tools are used to develop a 
+This project shows how to perform an integration testing and end to ent testing on Single Page Application using QUnit and Playwright.The two tools are used to develop a 
 number of testing suites allowing for thorough check of application integration and UI functionalities.    
 ## Technologies Used
 - JS ES6, QUnit and Playwright
